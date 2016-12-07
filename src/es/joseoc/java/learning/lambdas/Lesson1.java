@@ -50,8 +50,7 @@ public class Lesson1 {
         "alpha", "bravo", "charlie", "delta", "echo", "foxtrot");
 
     StringBuilder sb = new StringBuilder();
-    list.replaceAll(s -> s.substring(0, 1));
-    list.forEach(sb::append);
+    list.forEach(s -> sb.append(s.charAt(0)));
     System.out.println("\t" + sb.toString());
   }
 
@@ -94,7 +93,7 @@ public class Lesson1 {
     map.put("a", 1);
 
     StringBuilder sb = new StringBuilder();
-    map.forEach( (str, integer) -> sb.append(str).append(integer) );
+    map.forEach( (key, value) -> sb.append(key).append(value) );
     System.out.println("\t" + sb.toString());
   }
 

@@ -11,9 +11,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import sun.security.util.Length;
 
 /**
  * @author Speakjava (Simon Ritter)
@@ -21,7 +25,7 @@ import java.util.stream.Stream;
 public class Lesson2 {
   private static final String WORD_REGEXP = "[- .:,]+";
   // TODO Add the txt file as resource so that it can be read given its relative path
-  public static final String WORDS_FILE = "/home/jose/IdeaProjects/oracle-java8-lambda-mooc/out/production/oracle-java8-lambda-mooc/es/joseoc/java/learning/lambdas/Lesson2-SonnetI.txt";
+  private static final String WORDS_FILE = "/home/jose/IdeaProjects/oracle-java8-lambda-mooc/out/production/oracle-java8-lambda-mooc/es/joseoc/java/learning/lambdas/Lesson2-SonnetI.txt";
   //public static final String WORDS_FILE = "Lesson2-SonnetI.txt";
 
   /**
@@ -57,7 +61,13 @@ public class Lesson2 {
     List<String> list = Arrays.asList(
         "The", "Quick", "BROWN", "Fox", "Jumped", "Over", "The", "LAZY", "DOG");
 
-    /* YOUR CODE HERE */
+    System.out.print("\t");
+    list
+            .stream()
+            .map(s -> s.toLowerCase(Locale.ENGLISH))
+            .map(s -> s.concat(" "))
+            .forEach(System.out::print);
+    System.out.println();
   }
 
   /**
@@ -70,7 +80,14 @@ public class Lesson2 {
     List<String> list = Arrays.asList(
         "The", "Quick", "BROWN", "Fox", "Jumped", "Over", "The", "LAZY", "DOG");
 
-    /* YOUR CODE HERE */
+    System.out.print("\t");
+    list
+            .stream()
+            .filter(s -> (s.length() % 2) == 1)
+            .map(s -> s.toLowerCase(Locale.ENGLISH))
+            .map(s -> s.concat(" "))
+            .forEach(System.out::print);
+    System.out.println();
   }
 
   /**
@@ -83,17 +100,22 @@ public class Lesson2 {
     List<String> list = Arrays.asList(
         "The", "quick", "brown", "fox", "jumped", "over", "the", "lazy", "dog");
 
-    /* YOUR CODE HERE */
+    String result = "";
+    result = list.stream().skip(1).limit(3).map(s -> s.concat("-")).collect(Collectors.joining());
+    System.out.println("\t" + result);
   }
 
   /**
    * Count the number of lines in the file using the BufferedReader provided
    */
   private void exercise4() throws IOException {
-    try (BufferedReader reader = Files.newBufferedReader(
+    Long numLines;
+	try (BufferedReader reader = Files.newBufferedReader(
         Paths.get(WORDS_FILE), StandardCharsets.UTF_8)) {
-      /* YOUR CODE HERE */
+    	numLines = reader.lines()
+    			.collect(Collectors.counting());
     }
+    System.out.println("\t" + numLines);
   }
   
   /**
@@ -103,10 +125,20 @@ public class Lesson2 {
    * HINT: A regular expression, WORD_REGEXP, is already defined for your use.
    */
   private void exercise5() throws IOException {
+	List<String> list;
     try (BufferedReader reader = Files.newBufferedReader(
         Paths.get(WORDS_FILE), StandardCharsets.UTF_8)) {
-      /* YOUR CODE HERE */
+
+    	list = reader.lines()
+    			.flatMap(line -> Stream.of(line.split(WORD_REGEXP)))
+    			.distinct()
+    			.collect(Collectors.toList());
     }
+    System.out.print("\t");
+    list.stream()
+    	.map(s -> s.concat(" "))
+    	.forEach(System.out::print);
+    System.out.println();
   }
   
   /**
@@ -115,20 +147,44 @@ public class Lesson2 {
    * sorted by natural order.  Print the contents of the list.
    */
   private void exercise6() throws IOException {
+	List<String> list;
     try (BufferedReader reader = Files.newBufferedReader(
         Paths.get(WORDS_FILE), StandardCharsets.UTF_8)) {
-      /* YOUR CODE HERE */
+    	
+    	list = reader.lines()
+    			.flatMap(line -> Stream.of(line.split(WORD_REGEXP)))
+    			.map(s -> s.toLowerCase(Locale.ENGLISH))
+    			.distinct()
+    			.sorted()
+    			.collect(Collectors.toList());
     }
+    System.out.print("\t");
+    list.stream()
+    	.map(s -> s.concat(" "))
+    	.forEach(System.out::print);
+    System.out.println();
   }
   
   /**
    * Modify exercise6 so that the words are sorted by length
    */
   private void exercise7() throws IOException {
+	List<String> list;
     try (BufferedReader reader = Files.newBufferedReader(
         Paths.get(WORDS_FILE), StandardCharsets.UTF_8)) {
-      /* YOUR CODE HERE */
+    	
+		list = reader.lines()
+    			.flatMap(line -> Stream.of(line.split(WORD_REGEXP)))
+    			.map(s -> s.toLowerCase(Locale.ENGLISH))
+    			.distinct()
+    			.sorted((a,b) -> a.length() - b.length())
+    			.collect(Collectors.toList());
     }
+    System.out.print("\t");
+    list.stream()
+    	.map(s -> s.concat(" "))
+    	.forEach(System.out::print);
+    System.out.println();
   }
 
   /**

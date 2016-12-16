@@ -3,7 +3,7 @@
  *
  * JDK 8 MOOC Lesson 2 homework
  */
-package lesson2;
+package es.joseoc.java.learning.lambdas;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +20,9 @@ import java.util.stream.Stream;
  */
 public class Lesson2 {
   private static final String WORD_REGEXP = "[- .:,]+";
+  // TODO Add the txt file as resource so that it can be read given its relative path
+  public static final String WORDS_FILE = "/home/jose/IdeaProjects/oracle-java8-lambda-mooc/out/production/oracle-java8-lambda-mooc/es/joseoc/java/learning/lambdas/Lesson2-SonnetI.txt";
+  //public static final String WORDS_FILE = "Lesson2-SonnetI.txt";
 
   /**
    * Run the exercises to ensure we got the right answers
@@ -88,7 +91,7 @@ public class Lesson2 {
    */
   private void exercise4() throws IOException {
     try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get("SonnetI.txt"), StandardCharsets.UTF_8)) {
+        Paths.get(WORDS_FILE), StandardCharsets.UTF_8)) {
       /* YOUR CODE HERE */
     }
   }
@@ -101,7 +104,7 @@ public class Lesson2 {
    */
   private void exercise5() throws IOException {
     try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get("SonnetI.txt"), StandardCharsets.UTF_8)) {
+        Paths.get(WORDS_FILE), StandardCharsets.UTF_8)) {
       /* YOUR CODE HERE */
     }
   }
@@ -113,7 +116,7 @@ public class Lesson2 {
    */
   private void exercise6() throws IOException {
     try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get("SonnetI.txt"), StandardCharsets.UTF_8)) {
+        Paths.get(WORDS_FILE), StandardCharsets.UTF_8)) {
       /* YOUR CODE HERE */
     }
   }
@@ -123,7 +126,7 @@ public class Lesson2 {
    */
   private void exercise7() throws IOException {
     try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get("SonnetI.txt"), StandardCharsets.UTF_8)) {
+        Paths.get(WORDS_FILE), StandardCharsets.UTF_8)) {
       /* YOUR CODE HERE */
     }
   }

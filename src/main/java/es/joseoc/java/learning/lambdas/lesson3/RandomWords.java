@@ -20,7 +20,9 @@ import java.util.stream.Collectors;
  * @author Simon Ritter (@speakjava)
  */
 public class RandomWords {
-  private final List<String> sourceWords;
+//  private static final String FILENAME = "words";
+  private static final String FILENAME = "/home/jose/code/jose/oracle-java8-lambda-mooc/src/test/resources/es/joseoc/java/learning/lambdas/lesson3/words.txt";
+private final List<String> sourceWords;
 
   /**
    * Constructor
@@ -28,8 +30,8 @@ public class RandomWords {
    * @throws IOException If the source words file cannot be read
    */
   public RandomWords() throws IOException {   
-    try (BufferedReader reader = Files.newBufferedReader(Paths.get("words"))) {
-      sourceWords = null;    // YOUR CODE HERE
+    try (BufferedReader reader = Files.newBufferedReader(Paths.get(FILENAME))) {
+      sourceWords = reader.lines().collect(Collectors.toList());
       
       System.out.println("Loaded " + sourceWords.size() + " words");
     }
@@ -43,7 +45,12 @@ public class RandomWords {
    */
   public List<String> createList(int listSize) {
     Random rand = new Random();
-    List<String> wordList = null; // YOUR CODE HERE
+
+    // This can give repeated words
+    List<String> wordList = rand.ints(0, listSize)
+    		.limit(listSize)
+    		.mapToObj(i -> this.sourceWords.get(i))
+    		.collect(Collectors.toList());
 
     return wordList;
   }

@@ -71,6 +71,26 @@ public class Lesson3 {
     int[][] distances = new int[LIST_SIZE][LIST_SIZE];
     
     // YOUR CODE HERE
+    if (parallel) {
+    	IntStream.range(0, LIST_SIZE)
+    	.parallel()
+    	.forEach(i -> {
+	    	int j = 0;
+	    	for (String word : wordList) {
+				distances[i][j] = Levenshtein.lev(wordList.get(i), word);
+				j++;
+			}
+	    });    	
+    } else {
+	    IntStream.range(0, LIST_SIZE)
+	    .forEach(i -> {
+	    	int j = 0;
+	    	for (String word : wordList) {
+				distances[i][j] = Levenshtein.lev(wordList.get(i), word);
+				j++;
+			}
+	    });
+    }
     
     return distances;
   }

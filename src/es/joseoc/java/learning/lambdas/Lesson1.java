@@ -5,11 +5,16 @@
  */
 package es.joseoc.java.learning.lambdas;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.StringReader;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.FileHandler;
 
 /**
  * @author Speakjava (Simon Ritter)

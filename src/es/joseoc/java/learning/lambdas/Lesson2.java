@@ -78,8 +78,7 @@ public class Lesson2 {
         "The", "Quick", "BROWN", "Fox", "Jumped", "Over", "The", "LAZY", "DOG");
 
     System.out.print("\t");
-    list
-            .stream()
+    list.stream()
             .filter(s -> (s.length() % 2) == 1)
             .map(s -> s.toLowerCase(Locale.ENGLISH))
             .map(s -> s.concat(" "))

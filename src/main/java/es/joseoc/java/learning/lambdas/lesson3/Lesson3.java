@@ -3,7 +3,7 @@
  *
  * JDK 8 MOOC Lesson 3 homework
  */
-package es.joseoc.java.learning.lambdas;
+package es.joseoc.java.learning.lambdas.lesson3;
 
 import java.io.IOException;
 import java.util.List;

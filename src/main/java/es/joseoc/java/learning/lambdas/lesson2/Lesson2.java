@@ -3,16 +3,19 @@
  *
  * JDK 8 MOOC Lesson 2 homework
  */
-package es.joseoc.java.learning.lambdas;
+package es.joseoc.java.learning.lambdas.lesson2;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,16 +24,15 @@ import java.util.stream.Stream;
  */
 public class Lesson2 {
   private static final String WORD_REGEXP = "[- .:,]+";
-  // TODO Add the txt file as resource so that it can be read given its relative path
-  private static final String WORDS_FILE = "/home/jose/IdeaProjects/oracle-java8-lambda-mooc/out/production/oracle-java8-lambda-mooc/es/joseoc/java/learning/lambdas/Lesson2-SonnetI.txt";
-  //public static final String WORDS_FILE = "Lesson2-SonnetI.txt";
+  private static final String WORDS_FILE = "Lesson2-SonnetI.txt";
 
   /**
    * Run the exercises to ensure we got the right answers
    *
    * @throws java.io.IOException
+ * @throws URISyntaxException 
    */
-  public void runExercises() throws IOException {
+  public void runExercises() throws IOException, URISyntaxException {
     System.out.println("JDK 8 Lambdas and Streams MOOC Lesson 2");
     System.out.println("Running exercise 1 solution...");
     exercise1();
@@ -106,8 +108,9 @@ public class Lesson2 {
    */
   private void exercise4() throws IOException {
     Long numLines;
+    
 	try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get(WORDS_FILE), StandardCharsets.UTF_8)) {
+        Paths.get(inputFilename()), StandardCharsets.UTF_8)) {
     	numLines = reader.lines()
     			.collect(Collectors.counting());
     }
@@ -123,10 +126,11 @@ public class Lesson2 {
   private void exercise5() throws IOException {
 	List<String> list;
     try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get(WORDS_FILE), StandardCharsets.UTF_8)) {
+        Paths.get(inputFilename()), StandardCharsets.UTF_8)) {
 
     	list = reader.lines()
     			.flatMap(line -> Stream.of(line.split(WORD_REGEXP)))
+    			.map(s -> (String) s) // Funny line so that eclipse compile the code 
     			.distinct()
     			.collect(Collectors.toList());
     }
@@ -145,11 +149,11 @@ public class Lesson2 {
   private void exercise6() throws IOException {
 	List<String> list;
     try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get(WORDS_FILE), StandardCharsets.UTF_8)) {
+        Paths.get(inputFilename()), StandardCharsets.UTF_8)) {
     	
     	list = reader.lines()
     			.flatMap(line -> Stream.of(line.split(WORD_REGEXP)))
-    			.map(s -> s.toLowerCase(Locale.ENGLISH))
+    			.map(s -> ((String) s).toLowerCase(Locale.ENGLISH))
     			.distinct()
     			.sorted()
     			.collect(Collectors.toList());
@@ -166,12 +170,13 @@ public class Lesson2 {
    */
   private void exercise7() throws IOException {
 	List<String> list;
+	
     try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get(WORDS_FILE), StandardCharsets.UTF_8)) {
+        Paths.get(inputFilename()), StandardCharsets.UTF_8)) {
     	
 		list = reader.lines()
     			.flatMap(line -> Stream.of(line.split(WORD_REGEXP)))
-    			.map(s -> s.toLowerCase(Locale.ENGLISH))
+    			.map(s -> ((String) s).toLowerCase(Locale.ENGLISH))
     			.distinct()
     			.sorted((a,b) -> a.length() - b.length())
     			.collect(Collectors.toList());
@@ -183,13 +188,23 @@ public class Lesson2 {
     System.out.println();
   }
 
+  // Paths cannot be used to read project resources: http://stackoverflow.com/a/34812661/1609873
+  private URI inputFilename() {
+		try {
+			return this.getClass().getResource(WORDS_FILE).toURI();
+		} catch (URISyntaxException e) {
+			throw new RuntimeException("Error getting URI, filename: " + Objects.toString(WORDS_FILE), e);
+		}
+	}
+
   /**
    * Main entry point for application
    *
    * @param args the command line arguments
    * @throws IOException If file access does not work
+ * @throws URISyntaxException 
    */
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, URISyntaxException {
     Lesson2 lesson = new Lesson2();
     lesson.runExercises();
   }

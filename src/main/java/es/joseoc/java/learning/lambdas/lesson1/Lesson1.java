@@ -3,7 +3,7 @@
  *
  * JDK 8 MOOC Lesson 1 homework
  */
-package es.joseoc.java.learning.lambdas;
+package es.joseoc.java.learning.lambdas.lesson1;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

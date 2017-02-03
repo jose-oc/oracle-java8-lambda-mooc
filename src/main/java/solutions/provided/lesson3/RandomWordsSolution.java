@@ -3,17 +3,14 @@
  * 
  * JDK 8 MOOC Lesson 3 homework
  */
-package es.joseoc.java.learning.lambdas.lesson3;
+package solutions.provided.lesson3;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -22,8 +19,7 @@ import java.util.stream.Collectors;
  *
  * @author Simon Ritter (@speakjava)
  */
-public class RandomWords {
-  private static final String FILENAME = "words.txt";
+public class RandomWordsSolution {
   private final List<String> sourceWords;
 
   /**
@@ -31,10 +27,10 @@ public class RandomWords {
    * 
    * @throws IOException If the source words file cannot be read
    */
-  public RandomWords() throws IOException {   
-    try (BufferedReader reader = Files.newBufferedReader(Paths.get(inputFilename()))) {
-      sourceWords = reader.lines().collect(Collectors.toList());
-      
+  public RandomWordsSolution() throws IOException {
+    try (BufferedReader reader = Files.newBufferedReader(Paths.get("words"))) {
+      sourceWords = reader.lines()
+          .collect(Collectors.toList());
       System.out.println("Loaded " + sourceWords.size() + " words");
     }
   }
@@ -47,12 +43,10 @@ public class RandomWords {
    */
   public List<String> createList(int listSize) {
     Random rand = new Random();
-
-    // This can give repeated words
-    List<String> wordList = rand.ints(0, listSize)
-    		.limit(listSize)
-    		.mapToObj(i -> this.sourceWords.get(i))
-    		.collect(Collectors.toList());
+    
+    List<String> wordList = rand.ints(listSize, 0, sourceWords.size())
+        .mapToObj(sourceWords::get)
+        .collect(Collectors.toList());
 
     return wordList;
   }
@@ -65,14 +59,4 @@ public class RandomWords {
   public List<String> allWords() {
     return Collections.unmodifiableList(sourceWords);
   }
-  
-	// Paths cannot be used to read project resources:
-	// http://stackoverflow.com/a/34812661/1609873
-	private URI inputFilename() {
-		try {
-			return RandomWords.class.getResource(FILENAME).toURI();
-		} catch (URISyntaxException e) {
-			throw new RuntimeException("Error getting URI, filename: " + Objects.toString(FILENAME), e);
-		}
-	}
 }
